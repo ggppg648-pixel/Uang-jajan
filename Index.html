@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uang Jajan</title>
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        background:#f4f4f4;
+        padding:20px;
+    }
+
+    .container{
+        max-width:500px;
+        margin:auto;
+        background:white;
+        padding:20px;
+        border-radius:10px;
+        box-shadow:0 0 10px rgba(0,0,0,0.2);
+    }
+
+    h1{
+        text-align:center;
+    }
+
+    input, select, button{
+        width:100%;
+        padding:10px;
+        margin-top:10px;
+        box-sizing:border-box;
+    }
+
+    button{
+        background:#4CAF50;
+        color:white;
+        border:none;
+        cursor:pointer;
+    }
+
+    button:hover{
+        background:#45a049;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:20px;
+    }
+
+    th, td{
+        border:1px solid #ddd;
+        padding:8px;
+        text-align:center;
+    }
+
+    th{
+        background:#4CAF50;
+        color:white;
+    }
+
+    .saldo{
+        font-size:20px;
+        font-weight:bold;
+        text-align:center;
+        margin-top:15px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Catatan Uang Jajan</h1>
+
+    <input type="text" id="keterangan" placeholder="Keterangan">
+
+    <input type="number" id="jumlah" placeholder="Jumlah Uang">
+
+    <select id="jenis">
+        <option value="pemasukan">Pemasukan</option>
+        <option value="pengeluaran">Pengeluaran</option>
+    </select>
+
+    <button onclick="tambahData()">Tambah</button>
+
+    <div class="saldo">
+        Saldo: Rp <span id="saldo">0</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Keterangan</th>
+                <th>Jenis</th>
+                <th>Jumlah</th>
+            </tr>
+        </thead>
+        <tbody id="dataTabel">
+        </tbody>
+    </table>
+</div>
+
+<script>
+let saldo = 0;
+
+function tambahData(){
+    let keterangan = document.getElementById("keterangan").value;
+    let jumlah = parseInt(document.getElementById("jumlah").value);
+    let jenis = document.getElementById("jenis").value;
+
+    if(keterangan === "" || isNaN(jumlah)){
+        alert("Isi data dengan benar!");
+        return;
+    }
+
+    if(jenis === "pemasukan"){
+        saldo += jumlah;
+    } else {
+        saldo -= jumlah;
+    }
+
+    document.getElementById("saldo").textContent =
+        saldo.toLocaleString("id-ID");
+
+    let tabel = document.getElementById("dataTabel");
+
+    let baris = `
+        <tr>
+            <td>${keterangan}</td>
+            <td>${jenis}</td>
+            <td>Rp ${jumlah.toLocaleString("id-ID")}</td>
+        </tr>
+    `;
+
+    tabel.innerHTML += baris;
+
+    document.getElementById("keterangan").value = "";
+    document.getElementById("jumlah").value = "";
+}
+</script>
+
+</body>
+</html>
